@@ -9,7 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;a
+import java.util.List;
 
 public class Main extends Application {
 
