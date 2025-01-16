@@ -107,6 +107,4 @@ public class Main extends Application {
             System.setProperty("loader.path", String.join(",", loaderPaths));
         }
     }
-
-
 }
