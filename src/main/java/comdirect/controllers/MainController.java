@@ -32,6 +32,8 @@ public class MainController {
     // @Autowired
     // private BookmarkManager bookmarkManager;
 
+    // private WebViewBridge bridge;
+
     @FXML
     private WebView webView;
 
@@ -45,7 +47,6 @@ public class MainController {
     private ComboBox<String> bookmarkSelector;
 
     private boolean isLoading;
-    private WebViewBridge bridge;
 
     @FXML
     public void initialize() {
