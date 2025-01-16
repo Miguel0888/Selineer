@@ -14,7 +14,7 @@ java {
 }
 
 tasks.named('bootJar') {
-    archiveBaseName.set('comdirect') // Setzt den Basisnamen des Archivs
+    archiveBaseName.set('Selineer') // Setzt den Basisnamen des Archivs
     archiveVersion.set(version)     // Setzt die Versionsnummer basierend auf gradle.properties
 
     manifest {
