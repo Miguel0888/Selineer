@@ -1,0 +1,87 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0' // JavaFX Plugin
+    id 'org.springframework.boot' version '3.1.4'
+    id 'io.spring.dependency-management' version '1.1.3'
+}
+
+group = 'consorsbank'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.named('bootJar') {
+    archiveBaseName.set('comdirect') // Setzt den Basisnamen des Archivs
+    archiveVersion.set(version)     // Setzt die Versionsnummer basierend auf gradle.properties
+
+    manifest {
+        attributes( // instead of the default jar launcher, use the PropertiesLauncher
+                'Main-Class': 'org.springframework.boot.loader.PropertiesLauncher' // Verwende PropertiesLauncher
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Starter
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    // Für generierte Annotationen (javax.annotation)
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+
+    // Browsing & Scraping Capabilities
+    // Jsoup für HTML-Parsing (benötigt für JNLP-Dateien)
+    implementation 'org.jsoup:jsoup:1.16.1'
+    // Jodd für kompliziertere HTTP-Anfragen
+    implementation 'org.jodd:jodd-http:6.2.1'
+    // Playwright for Java
+    implementation 'com.microsoft.playwright:playwright:1.38.0'
+
+    // Optional: Lombok (für weniger Boilerplate)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Platform-specific dependencies
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    implementation "org.openjfx:javafx-controls:21:win"
+    implementation "org.openjfx:javafx-controls:21:linux"
+    implementation "org.openjfx:javafx-controls:21:mac"
+    implementation "org.openjfx:javafx-fxml:21:win"
+    implementation "org.openjfx:javafx-fxml:21:linux"
+    implementation "org.openjfx:javafx-fxml:21:mac"
+    implementation "org.openjfx:javafx-web:21:win"
+    implementation "org.openjfx:javafx-web:21:linux"
+    implementation "org.openjfx:javafx-web:21:mac"
+
+    implementation "org.openjfx:javafx-base:21:win"
+    implementation "org.openjfx:javafx-base:21:linux"
+    implementation "org.openjfx:javafx-base:21:mac"
+    implementation "org.openjfx:javafx-graphics:21:win"
+    implementation "org.openjfx:javafx-graphics:21:linux"
+    implementation "org.openjfx:javafx-graphics:21:mac"
+    implementation "org.openjfx:javafx-media:21:win"
+    implementation "org.openjfx:javafx-media:21:linux"
+    implementation "org.openjfx:javafx-media:21:mac"
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web' ] // Benötigte JavaFX-Module
+}
+
+application {
+    mainClass = 'comdirect.Main'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-parameters']
+}
