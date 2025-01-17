@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '2.5.14' // Letzte Java-8-kompatible Version
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'selineer' // Package-Name
@@ -15,9 +17,24 @@ repositories {
 }
 
 dependencies {
-    // Beispiel für Abhängigkeiten, die mit Java 8 kompatibel sind
-    implementation 'org.apache.commons:commons-lang3:3.12.0' // Apache Commons Lang
-    implementation 'com.google.guava:guava:30.1.1-jre' // Google Guava
+    // Spring Boot Starter (Java 8 kompatibel)
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    // Selenium WebDriver (Java 8 kompatibel)
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+
+    // Optional: Lombok für weniger Boilerplate
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // // Optional: Apache Commons Lang (nützliche Hilfsklassen)
+    // implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    // // Optional: Google Guava (nützliche Sammlungen und Werkzeuge)
+    // implementation 'com.google.guava:guava:30.1.1-jre'
+
+    // Optional: JUnit für Tests
+    testImplementation 'junit:junit:4.13.2'
 }
 
 tasks.named('jar') {
