@@ -1,6 +1,6 @@
 # Selineer
 
-Selineer ist eine **Java 8-kompatible Testautomatisierungsbibliothek**, die eine Playwright-ähnliche API bereitstellt, aber auf **Selenium** aufbaut. Der Name "Selineer" leitet sich von **Selenium** und **Engineer** ab. Dieses Projekt wurde speziell entwickelt, um in Umgebungen zu funktionieren, in denen nur **Java 8** verfügbar ist, da Playwright Java 8 nicht unterstützt.
+Selineer ist eine **Java 8-kompatible Testautomatisierungsbibliothek**, die eine Playwright-ähnliche API bereitstellt, aber auf einem speziellen Adapter aufbaut. Dieses Projekt wurde speziell entwickelt, um in Umgebungen zu funktionieren, in denen nur **Java 8** verfügbar ist, da Playwright Java 8 nicht unterstützt.
 
 ## Programmstart
 Für ausführbare JARs siehe Releases. Sie werden von GitHub Actions stehts auf dem neuesten Stand gehalten.
@@ -13,7 +13,7 @@ Ohne Manifest:
 
 ## Ziel des Projekts
 
-Das Hauptziel von Selineer ist es, eine **zu Playwright kompatible API** zu schaffen, die jedoch auf Selenium basiert. Dadurch wird es möglich, moderne Browser-Testautomatisierung im Playwright-Stil auch mit Java 8 durchzuführen. Darüber hinaus wird die Bibliothek später in der Lage sein, **Cucumber-Testdateien** einzulesen und deren Anweisungen im Browser auszuführen.
+Das Hauptziel von Selineer ist es, eine **zu Playwright kompatible API** zu schaffen, die jedoch auf einem Adapter basiert. Dadurch wird es möglich, moderne Browser-Testautomatisierung im Playwright-Stil auch mit Java 8 durchzuführen. Darüber hinaus wird die Bibliothek später in der Lage sein, **Cucumber-Testdateien** einzulesen und deren Anweisungen im Browser auszuführen.
 
 ## Funktionsübersicht
 
@@ -96,3 +96,8 @@ Die obigen Schritte werden von Selineer interpretiert und im Chrome-Browser ausg
 ## Lizenz
 
 Dieses Projekt ist unter der [MIT-Lizenz](LICENSE) lizenziert. Siehe die Lizenzdatei für weitere Details.
+
+## Drittanbieter-Code
+
+Einige Teile dieses Projekts basieren ggf. auf ([Playwright](https://github.com/microsoft/playwright)) und sind unter der Apache License 2.0 lizenziert. 
+Die Apache License 2.0 ist unter `LICENSE-APACHE` zu finden.

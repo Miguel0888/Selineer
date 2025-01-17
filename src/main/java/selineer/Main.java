@@ -11,10 +11,10 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::createAndShowGUI);
     }
-
+    
     private static void createAndShowGUI() {
         PlaywrightAdapter adapter = new PlaywrightAdapter();
-        BrowserService browserService = new BrowserService(adapter);
+        BrowserService browserService = new BrowserService();
         MainController controller = new MainController(browserService);
 
         JFrame frame = new JFrame("Web Testing Dashboard");
