@@ -19,3 +19,22 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0' // Apache Commons Lang
     implementation 'com.google.guava:guava:30.1.1-jre' // Google Guava
 }
+
+tasks.named('jar') {
+    manifest {
+        attributes(
+            // Vermeide Aufrufkonventionen wie "java -cp o.jar selineer.Main"
+            // Stattdessen: "java -jar o.jar"
+            'Main-Class': 'selineer.Main' // Manifest-Eintrag
+        )
+    }
+}
+
+// Für Start mit Spring Boot:
+// tasks.named('bootJar') {
+//     manifest {
+//         attributes(
+//             'Main-Class': 'org.springframework.boot.loader.PropertiesLauncher'
+//         )
+//     }
+// }

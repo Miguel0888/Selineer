@@ -13,7 +13,7 @@ public class Main {
     }
 
     private static void createAndShowGUI() {
-        JFrame frame = new JFrame("Comdirect Dashboard");
+        JFrame frame = new JFrame("Web Testing Dashboard");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create the toolbar
@@ -30,7 +30,7 @@ public class Main {
         JComboBox<String> browserSelector = new JComboBox<>(new String[]{"Browser 1", "Browser 2"});
 
         JButton loginButton = new JButton("Login");
-        JButton proTraderButton = new JButton("ProTrader");
+        JButton customButton = new JButton("N/A");
 
         toolBar.add(refreshButton);
         toolBar.addSeparator();
@@ -43,13 +43,13 @@ public class Main {
         toolBar.add(browserSelector);
         toolBar.addSeparator();
         toolBar.add(loginButton);
-        toolBar.add(proTraderButton);
+        toolBar.add(customButton);
 
         // Create the WebView equivalent (using JEditorPane)
         JEditorPane webView = new JEditorPane();
         webView.setEditable(false);
         webView.setContentType("text/html"); // HTML rendering
-        webView.setText("<html><body><h1>Willkommen im Comdirect Dashboard</h1></body></html>");
+        webView.setText("<html><body><h1>Willkommen im Web Testing Dashboard</h1></body></html>");
         
         // Add hyperlink listener to support links
         webView.addHyperlinkListener(new HyperlinkListener() {
@@ -73,7 +73,7 @@ public class Main {
         forwardButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Vor"));
         homeButton.addActionListener(e -> {
             try {
-                webView.setPage("https://www.comdirect.de");
+                webView.setPage("https://www.google.de");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Fehler beim Laden der Startseite.");
             }
