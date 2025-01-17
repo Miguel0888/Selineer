@@ -1,214 +1,138 @@
 package comdirect.controllers;
 
-// import comdirect.config.ComdirectConfig;
-// import comdirect.services.BookmarkManager;
-// import comdirect.services.BrowseService;
-// import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.web.WebView;
-// import netscape.javascript.JSObject;
-// import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.stereotype.Controller;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-// @Controller
 public class MainController {
 
-    @Value("${comdirect.ui.enable-javascript-console}")
-    boolean enableJavaScriptConsole;
+    private JFrame frame;
+    private JTextField addressBar;
+    private JComboBox<String> browserSelector;
+    private JComboBox<String> bookmarkSelector;
+    private JEditorPane webView;
+    private boolean isLoading = false;
 
-    @Value("${comdirect.ui.enable-javascript-debug}")
-    boolean enableJavaScriptDebug;
+    private boolean enableJavaScriptConsole = false; // Simuliert @Value("${comdirect.ui.enable-javascript-console}")
+    private boolean enableJavaScriptDebug = false; // Simuliert @Value("${comdirect.ui.enable-javascript-debug}")
 
-    // @Autowired
-    // private ComdirectConfig config;
-
-      // @Autowired
-    // private BrowseService browseService;
-
-    // @Autowired
-    // private BookmarkManager bookmarkManager;
-
-    // private WebViewBridge bridge;
-
-    @FXML
-    private WebView webView;
-
-    @FXML
-    private TextField addressBar;
-
-    @FXML
-    private ComboBox<String> browserSelector;
-
-    @FXML
-    private ComboBox<String> bookmarkSelector;
-
-    private boolean isLoading;
-
-    @FXML
-    public void initialize() {
-        // Browser-Dropdown initialisieren
-        browserSelector.getItems().addAll("chromium", "firefox", "webkit", "edge");
-        // browserSelector.setValue(config.getBrowser().getDefaultBrowser()); // Standardwert aus application.yml
-
-        // Bookmarks in die ComboBox laden
-        // bookmarkSelector.getItems().addAll(bookmarkManager.getBookmarkNames());
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// WebView-Initialisierung
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // webView.getEngine().setJavaScriptEnabled(true); // Make sure JavaScript is enabled!
-        // webView.getEngine().getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-        //     if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
-        //         // Seite wurde vollständig geladen
-        //         System.out.println("Seite vollständig geladen, registriere Bridge und JavaScript.");
-
-        //         // Registriere die Bridge nur, wenn sie nicht bereits registriert ist
-        //         JSObject window = (JSObject) webView.getEngine().executeScript("window");
-        //         bridge = new WebViewBridge(this, browseService);
-        //         window.setMember("bridge", bridge);
-        //     }
-        // });
-        // webView.getEngine().locationProperty().addListener((obs, oldLocation, newLocation) -> {
-        //     if (newLocation.startsWith("bridge://")) {
-        //         bridge.handleBridgeRequest(newLocation);
-        //     }
-        // });
-
-        // if(config.getUi().isLoadHomePageAtStartup()) {
-        //     if (config.getUi().isAutoCloseCookieBannerAtStartup()) {
-        //         // Cookie-Banner schließen
-        //         displayHtmlInWebView(browseService.navigateToAndCloseCookieBanner(config.getUi().getUrlHome()));
-        //     } else {
-        //         // Standardseite anzeigen
-        //         displayHtmlInWebView(browseService.navigateTo(config.getUi().getUrlHome()));
-        //     }
-        // }
-        // if(config.getLogin().isAutoLogin()) {
-        //     onLoginClick(null);
-        // }
+    public MainController() {
+        initialize();
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// WebView-Interaktionen
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void initialize() {
+        frame = new JFrame("Comdirect Dashboard");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
 
-    synchronized void displayHtmlInWebView(String htmlContent) {
-        // if (isLoading) return;
-        // isLoading = true;
-        // Platform.runLater(() -> {
-        //     try {
-        //         webView.getEngine().loadContent(appendScripts(htmlContent));
-        //         addressBar.setText(browseService.page.url());
-        //     } finally {
-        //         // isLoading zurücksetzen, auch wenn ein Fehler auftritt
-        //         isLoading = false;
-        //     }
-        // });
+        // Toolbar erstellen
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+
+        JButton refreshButton = new JButton("Aktualisieren");
+        JButton backButton = new JButton("Zurück");
+        JButton forwardButton = new JButton("Vor");
+        JButton homeButton = new JButton("Home");
+
+        bookmarkSelector = new JComboBox<>(new String[]{"Bookmark 1", "Bookmark 2"});
+        addressBar = new JTextField("Adresse eingeben und Enter drücken");
+        browserSelector = new JComboBox<>(new String[]{"Browser 1", "Browser 2"});
+
+        JButton loginButton = new JButton("Login");
+        JButton proTraderButton = new JButton("ProTrader");
+
+        toolBar.add(refreshButton);
+        toolBar.addSeparator();
+        toolBar.add(backButton);
+        toolBar.add(forwardButton);
+        toolBar.add(homeButton);
+        toolBar.addSeparator();
+        toolBar.add(bookmarkSelector);
+        toolBar.add(addressBar);
+        toolBar.add(browserSelector);
+        toolBar.addSeparator();
+        toolBar.add(loginButton);
+        toolBar.add(proTraderButton);
+
+        // WebView (JEditorPane als Ersatz)
+        webView = new JEditorPane();
+        webView.setEditable(false);
+        webView.setContentType("text/html");
+        webView.setText("<html><body><h1>Willkommen im Comdirect Dashboard</h1></body></html>");
+
+        JScrollPane webViewScrollPane = new JScrollPane(webView);
+
+        // Action Listener hinzufügen
+        refreshButton.addActionListener(e -> onRefreshClick());
+        backButton.addActionListener(e -> onBackClick());
+        forwardButton.addActionListener(e -> onForwardClick());
+        homeButton.addActionListener(e -> onHomeClick());
+        addressBar.addActionListener(e -> onAddressEntered());
+        loginButton.addActionListener(e -> onLoginClick());
+        proTraderButton.addActionListener(e -> onStartApplicationClick());
+        bookmarkSelector.addActionListener(e -> onBookmarkSelectionChanged());
+
+        // Layout konfigurieren
+        frame.setLayout(new BorderLayout());
+        frame.add(toolBar, BorderLayout.NORTH);
+        frame.add(webViewScrollPane, BorderLayout.CENTER);
     }
 
-    private String appendScripts (String htmlContent) {
-        return htmlContent + "<script>" +
-            (enableJavaScriptDebug ? BrowserUtils.addDebugCode() : "") +
-            (enableJavaScriptConsole ? BrowserUtils.addConsoleLogCode() : "") +
-            BrowserUtils.addBridgeCode() +
-            "</script>";
+    public void show() {
+        frame.setVisible(true);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Event handlers for JavaFX controls
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @FXML
-    protected void onHomeClick() {
-        // displayHtmlInWebView(browseService.navigateTo(config.getUi().getUrlHome()));
-        // bookmarkSelector.setValue(bookmarkManager.getPageName());
+    // Implementierung der Event-Handler
+    private void onRefreshClick() {
+        if (isLoading) return;
+        isLoading = true;
+        displayHtmlInWebView("<html><body><h2>Seite aktualisiert</h2></body></html>");
+        isLoading = false;
     }
 
-    @FXML
-    protected void onBackClick() {
-        // displayHtmlInWebView(browseService.navigateBack());
-        // bookmarkSelector.setValue(bookmarkManager.getPageName());
+    private void onBackClick() {
+        JOptionPane.showMessageDialog(frame, "Zurück-Funktion wurde geklickt.");
     }
 
-    @FXML
-    public void onForwardClick(ActionEvent actionEvent) {
-        // bookmarkSelector.setValue(null);
-        // displayHtmlInWebView(browseService.navigateForward());
-        // bookmarkSelector.setValue(bookmarkManager.getPageName());
+    private void onForwardClick() {
+        JOptionPane.showMessageDialog(frame, "Vor-Funktion wurde geklickt.");
     }
 
-    @FXML
-    protected void onAddressEntered() {
-        // String url = addressBar.getText();
-        // if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        //     url = "https://" + url;
-        // }
-        // displayHtmlInWebView(browseService.navigateTo(url));
-        // bookmarkSelector.setValue(bookmarkManager.getPageName());
+    private void onHomeClick() {
+        displayHtmlInWebView("<html><body><h1>Startseite geladen</h1></body></html>");
     }
 
-    @FXML
-    protected void onStartApplicationClick() {
-        // ToDo: Implement the auto login, download and webstart functionality, here
-        BrowserUtils.showError("Fehler", "Aktion fehlgeschlagen", "Not implemented yet.");
+    private void onAddressEntered() {
+        String url = addressBar.getText();
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+        displayHtmlInWebView("<html><body><h2>Geladene URL: " + url + "</h2></body></html>");
     }
 
-    @FXML
-    public void onBrowserSelectionChanged(ActionEvent actionEvent) {
-        // String selectedBrowser = browserSelector.getValue();
-        // browseService.changeBrowser(selectedBrowser);
+    private void onLoginClick() {
+        JOptionPane.showMessageDialog(frame, "Login-Funktion wurde geklickt.");
     }
 
-    @FXML
-    public void onRefreshClick(ActionEvent actionEvent) {
-        // displayHtmlInWebView(browseService.refreshPage());
+    private void onStartApplicationClick() {
+        JOptionPane.showMessageDialog(frame, "ProTrader wurde gestartet.");
     }
 
-    @FXML
-    public void onLoginClick(ActionEvent actionEvent) {
-        // bookmarkSelector.setValue(null);
-        // try {
-        //     if(config.getLogin().isUseDifferentLoginUrl())
-        //     {
-        //         if(config.getLogin().isAutoCloseCookieBanner()) {
-        //             // Cookie-Banner schließen und Login-Seite anzeigen
-        //             displayHtmlInWebView(browseService.navigateToAndCloseCookieBanner(config.getLogin().getUrl()));
-        //         } else {
-        //             // Login-Seite anzeigen
-        //             displayHtmlInWebView(browseService.navigateTo(config.getLogin().getUrl()));
-        //         }
-        //     }
-
-        //     if( BrowserUtils.requestCredentialsFromUser(config))
-        //     {
-        //         // Login ausführen
-        //         String responseHtml = browseService.performLogin(config.getLogin().getUser(), config.getLogin().getPin());
-        //         displayHtmlInWebView(responseHtml);
-        //     }
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     BrowserUtils.showError("Fehler", "Aktion fehlgeschlagen", e.getMessage());
-        // }
+    private void onBookmarkSelectionChanged() {
+        String selectedBookmark = (String) bookmarkSelector.getSelectedItem();
+        displayHtmlInWebView("<html><body><h2>Geladene Bookmark: " + selectedBookmark + "</h2></body></html>");
     }
 
-    @FXML
-    public void onBookmarkSelectionChanged(ActionEvent actionEvent) {
-        // // Name des ausgewählten Bookmarks abrufen
-        // String selectedBookmarkName = bookmarkSelector.getValue();
+    // HTML-Inhalte im WebView anzeigen
+    private void displayHtmlInWebView(String htmlContent) {
+        webView.setText(htmlContent);
+    }
 
-        // // URL zum Bookmark abrufen
-        // String url = bookmarkManager.getBookmarkUrlByName(selectedBookmarkName);
-
-        // if (url != null) {
-        //     // URL im Browser öffnen
-        //     displayHtmlInWebView(browseService.navigateTo(url));
-        // } else {
-        //     System.err.println("Fehler: Keine URL für das ausgewählte Bookmark gefunden.");
-        // }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            MainController controller = new MainController();
+            controller.show();
+        });
     }
 }
