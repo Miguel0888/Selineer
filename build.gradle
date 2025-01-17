@@ -1,11 +1,8 @@
 plugins {
-    id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10' // Kompatibel mit Java 8
-    id 'org.springframework.boot' version '2.5.14' // Letzte Version mit Java 8-Kompatibilität
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
 }
 
-group = 'consorsbank'
+group = 'selineer' // Package-Name
 version = '1.0.0'
 
 java {
@@ -13,43 +10,12 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-tasks.named('bootJar') {
-    archiveBaseName.set('comdirect')
-    archiveVersion.set(version)
-
-    manifest {
-        attributes(
-                'Main-Class': 'org.springframework.boot.loader.PropertiesLauncher'
-        )
-    }
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // Spring Boot Starter (Java 8 kompatibel)
-    implementation 'org.springframework.boot:spring-boot-starter'
-
-    // Für Annotationen (javax.annotation)
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
-
-    // Browsing & Scraping Capabilities
-    implementation 'org.jsoup:jsoup:1.13.1' // Kompatibel mit Java 8
-    implementation 'org.jodd:jodd-http:5.1.6' // Kompatibel mit Java 8
-    // Playwright ist nicht kompatibel mit Java 8 und wurde entfernt
-
-    // Optional: Lombok (für weniger Boilerplate)
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-}
-
-application {
-    mainClass = 'comdirect.Main'
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.compilerArgs += ['-parameters']
+    // Beispiel für Abhängigkeiten, die mit Java 8 kompatibel sind
+    implementation 'org.apache.commons:commons-lang3:3.12.0' // Apache Commons Lang
+    implementation 'com.google.guava:guava:30.1.1-jre' // Google Guava
 }
