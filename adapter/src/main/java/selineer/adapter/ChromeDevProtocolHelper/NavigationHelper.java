@@ -1,6 +1,5 @@
 package selineer.adapter.ChromeDevProtocolHelper;
 
-
 import io.webfolder.cdp.session.Session;
 import io.webfolder.cdp.session.SessionFactory;
 import io.webfolder.cdp.session.SessionInfo;
@@ -21,8 +20,8 @@ public class NavigationHelper {
                 SessionInfo sessionInfo = sessionFactory.list().get(0);
                 System.out.println("Verfügbare Sitzung: " + sessionInfo);
 
-                // Sitzung basierend auf der ID erstellen
-                session = sessionFactory.create(sessionInfo.getId());
+                // Verbindung direkt mit der vorhandenen Sitzung herstellen
+                session = sessionFactory.connect(sessionInfo.getId());
             } else {
                 throw new RuntimeException("Keine vorhandene Sitzung verfügbar. Stelle sicher, dass der Browser gestartet ist.");
             }
@@ -40,5 +39,5 @@ public class NavigationHelper {
                 session.close();
             }
         }
-    }    
+    }
 }
