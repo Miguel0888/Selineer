@@ -1,6 +1,7 @@
 
 package selineer.adapter;
 
+import selineer.adapter.ChromeDevProtocolHelper.ConnectionHelper;
 import selineer.api.Browser;
 import selineer.api.BrowserContext;
 import selineer.api.BrowserType;
@@ -68,7 +69,7 @@ public class BrowserAdapter implements Browser {
 
     @Override
     public Page newPage(NewPageOptions options) {
-        connectToBrowser();
+        connectToBrowser("localhost", 9222);
 
         // Optionen könnten hier auf eine spezifische Art und Weise angewandt werden
         if (options != null) {
@@ -128,64 +129,21 @@ public class BrowserAdapter implements Browser {
         }
     }
 
-    private void connectToBrowser() {
+    // CDP4J version: ////////////////////////////////////////////////////////////////////////
+    private void connectToBrowser(String host, int port) {
         try {
-            String wsUrl = getWebSocketDebuggerUrl();
-            if (wsUrl != null) {
-                webSocketClient = new WebSocketClient(new java.net.URI(wsUrl)) {
-                    @Override
-                    public void onOpen(org.java_websocket.handshake.ServerHandshake handshake) {
-                        System.out.println("WebSocket-Verbindung hergestellt!");
-                    }
+            // Verwende den BrowserConnector-Helper
+            ConnectionHelper.connectToBrowser("localhost", port); // Use helper, ToDo: Improve!
 
-                    @Override
-                    public void onMessage(String message) {
-                        System.out.println("Nachricht vom Browser: " + message);
-                    }
-
-                    @Override
-                    public void onClose(int code, String reason, boolean remote) {
-                        System.out.println("WebSocket-Verbindung geschlossen: " + reason);
-                    }
-
-                    @Override
-                    public void onError(Exception ex) {
-                        ex.printStackTrace();
-                    }
-                };
-                webSocketClient.connect();
-                while (!webSocketClient.isOpen()) {
-                    Thread.sleep(100);
-                }
-                System.out.println("WebSocket-Client ist aktiv.");
+            // Verbindung testen
+            if (ConnectionHelper.getSessionFactory() == null) {
+                throw new RuntimeException("SessionFactory ist null. Verbindung fehlgeschlagen.");
             }
+
+            System.out.println("Erfolgreich mit dem Browser verbunden über BrowserConnector!");
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Verbindung zum Browser fehlgeschlagen", e);
         }
-    }
-
-    private String getWebSocketDebuggerUrl() {
-        try {
-            java.net.URL url = new java.net.URL("http://localhost:9222/json");
-            java.net.HttpURLConnection connection = (java.net.HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(connection.getInputStream()))) {
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-
-                com.google.gson.JsonArray jsonArray = com.google.gson.JsonParser.parseString(response.toString()).getAsJsonArray();
-                if (jsonArray.size() > 0) {
-                    com.google.gson.JsonObject firstPage = jsonArray.get(0).getAsJsonObject();
-                    return firstPage.get("webSocketDebuggerUrl").getAsString();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

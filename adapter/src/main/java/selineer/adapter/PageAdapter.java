@@ -1,5 +1,7 @@
 package selineer.adapter;
 
+import selineer.adapter.ChromeDevProtocolHelper.ConnectionHelper;
+import selineer.adapter.ChromeDevProtocolHelper.NavigationHelper;
 import selineer.api.APIRequestContext;
 import selineer.api.BrowserContext;
 import selineer.api.Clock;
@@ -417,43 +419,28 @@ public class PageAdapter implements Page {
 
     @Override
     public Response navigate(String url, NavigateOptions options) {
-        if (webSocketClient != null && webSocketClient.isOpen()) {
-            // JSON-Befehl erstellen
-            com.google.gson.JsonObject command = new com.google.gson.JsonObject();
-            command.addProperty("id", 1);
-            command.addProperty("method", "Page.navigate");
-    
-            // Parameter hinzufügen
-            com.google.gson.JsonObject params = new com.google.gson.JsonObject();
-            params.addProperty("url", url);
-    
-            if (options != null) {
-                if (options.referer != null) {
-                    params.addProperty("referer", options.referer);
-                }
-                if (options.timeout != null) {
-                    params.addProperty("timeout", options.timeout);
-                }
-                if (options.waitUntil != null) {
-                    params.addProperty("waitUntil", options.waitUntil.name().toLowerCase());
-                }
-            }
-    
-            command.add("params", params);
-            webSocketClient.send(command.toString());
-    
-            // Warte auf die Antwort (ToDo: Implementiere Wartelogik)
-            byte[] body = "{}".getBytes(); // Platzhalter
-            int status = 200;
-            String statusText = "OK";
-    
-            // Erstelle und returniere ResponseAdapter
-            return new ResponseAdapter(body, status, statusText, url, new HashMap<>(), null, false);
+        if (ConnectionHelper.getSessionFactory() == null) {
+            throw new IllegalStateException("SessionFactory ist nicht initialisiert. Stelle sicher, dass connectToBrowser zuvor aufgerufen wurde.");
         }
 
-        System.out.println("WebSocket-Verbindung nicht aktiv.");
-        return null;
+        try {
+            // Verwende NavigationHelper für die Navigation
+            NavigationHelper.navigateToUrl(ConnectionHelper.getSessionFactory(), url);
+
+            // Erstelle Response-Daten
+            byte[] body = "{}".getBytes(); // Platzhalter für den Body
+            int status = 200; // Erfolgsstatus
+            String statusText = "OK";
+
+            // Erstelle und returniere ResponseAdapter
+            return new ResponseAdapter(body, status, statusText, url, new HashMap<>(), null, false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Navigation fehlgeschlagen", e);
+        }
     }
+
 
     @Override
     public void offClose(Consumer<Page> handler) {
