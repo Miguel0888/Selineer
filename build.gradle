@@ -20,8 +20,20 @@ dependencies {
     // Spring Boot Starter (Java 8 kompatibel)
     implementation 'org.springframework.boot:spring-boot-starter'
 
-    // Selenium WebDriver (Java 8 kompatibel)
-    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    // implementation 'org.java-websocket:Java-WebSocket:1.6.0'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.2'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
+
+    // chrome_devtools_protocol
+    // implementation 'org.netbeans.modules:org-netbeans-lib-chrome_devtools_protocol:RELEASE240'
+
+    // // Chrome DevTools-Protokolls um WebDriver (verwendet Selenium) zu umgehen
+    // implementation 'io.webfolder:cdp4j:4.8.4' 
+    // // Selenium WebDriver (Java 8 kompatibel)
+    // implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
 
     // Optional: Lombok für weniger Boilerplate
     compileOnly 'org.projectlombok:lombok'
