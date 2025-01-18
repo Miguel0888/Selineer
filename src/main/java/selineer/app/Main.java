@@ -1,8 +1,8 @@
-package selineer;
+package selineer.app;
 
 import selineer.adapter.PlaywrightAdapter;
-import selineer.controller.MainController;
-import selineer.service.BrowserService;
+import selineer.app.controller.MainController;
+import selineer.app.service.BrowserService;
 
 import javax.swing.*;
 import java.awt.*;

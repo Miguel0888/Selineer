@@ -25,11 +25,6 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.9'
 
-// ToDo: Replace Jackson with gson
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
-
     // chrome_devtools_protocol
     // implementation 'org.netbeans.modules:org-netbeans-lib-chrome_devtools_protocol:RELEASE240'
 
@@ -57,7 +52,7 @@ tasks.named('jar') {
         attributes(
             // Vermeide Aufrufkonventionen wie "java -cp o.jar selineer.Main"
             // Stattdessen: "java -jar o.jar"
-            'Main-Class': 'selineer.Main' // Manifest-Eintrag
+            'Main-Class': 'selineer.app.Main' // Manifest-Eintrag
         )
     }
 }

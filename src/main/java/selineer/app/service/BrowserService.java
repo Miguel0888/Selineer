@@ -1,4 +1,4 @@
-package selineer.service;
+package selineer.app.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,8 +10,10 @@ import java.net.URL;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class BrowserService {
     private WebSocketClient webSocketClient;
@@ -107,13 +109,12 @@ public class BrowserService {
             }
             reader.close();
     
-            // JSON mit Jackson parsen
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonArray = objectMapper.readTree(response.toString());
+            // JSON mit Gson parsen
+            JsonArray jsonArray = JsonParser.parseString(response.toString()).getAsJsonArray();
     
-            if (jsonArray.isArray() && jsonArray.size() > 0) {
-                JsonNode firstPage = jsonArray.get(0);
-                String webSocketDebuggerUrl = firstPage.get("webSocketDebuggerUrl").asText();
+            if (jsonArray.size() > 0) {
+                JsonObject firstPage = jsonArray.get(0).getAsJsonObject();
+                String webSocketDebuggerUrl = firstPage.get("webSocketDebuggerUrl").getAsString();
                 System.out.println("WebSocket-URL: " + webSocketDebuggerUrl);
                 return webSocketDebuggerUrl;
             } else {
