@@ -9,14 +9,13 @@ public class PlaywrightAdapter implements Playwright {
 
     @Override
     public BrowserType chromium() {
-        // TODO Auto-generated method stub
-        return null;
+        return new BrowserTypeAdapter("chromium");
     }
 
     @Override
     public void close() {
-        // TODO Auto-generated method stub
-        
+        // ToDo: Ressourcen freigeben, falls nötig!
+        System.out.println("Playwright geschlossen.");
     }
 
     @Override

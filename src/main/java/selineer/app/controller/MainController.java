@@ -3,7 +3,6 @@ package selineer.app.controller;
 import selineer.app.service.BrowserService;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 public class MainController {
     private final BrowserService browserService;
@@ -23,25 +22,11 @@ public class MainController {
     public void setupListeners(JButton navigateButton, JTextField addressBar, JComboBox<String> browserSelector) {
         navigateButton.addActionListener(e -> {
             String url = addressBar.getText();
-            String selectedBrowser = (String) browserSelector.getSelectedItem();
-    
-            if (!url.isEmpty() && selectedBrowser != null) {
+            if (!url.isEmpty()) {
                 browserService.navigateTo(url);
             } else {
-                JOptionPane.showMessageDialog(null, "Bitte eine URL eingeben und den Browser auswählen.");
+                JOptionPane.showMessageDialog(null, "Bitte eine URL eingeben.");
             }
-        });
-        browserSelector.addActionListener(e -> {
-            String selectedBrowser = (String) browserSelector.getSelectedItem();
-        if ("Chrome".equals(selectedBrowser)) { // Prüfen, ob der ausgewählte Browser korrekt ist
-            if (browserService.getWebSocketClient() == null || !browserService.getWebSocketClient().isOpen()) {
-                System.out.println("Verbinde mit dem Browser...");
-                browserService.connectToBrowser();
-            } else {
-                System.out.println("Bereits verbunden mit dem Browser.");
-            }
-        }
         });
     }
-    
 }
