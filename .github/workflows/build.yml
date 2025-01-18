@@ -78,13 +78,15 @@ jobs:
         run: echo "${{ steps.create_release.outputs.upload_url }}"
 
       - name: Check JAR file existence
-        run: ls -l adapter/build/libs/adapter-all.jar
+        run: |
+          JAR_FILE=$(ls adapter/build/libs/adapter-*-all.jar)
+          ls -l "$JAR_FILE"
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: adapter/build/libs/adapter-all.jar
+          asset_path: ${{ steps.create_release.outputs.upload_url }}
           asset_name: Selineer-${{ env.new_version }}.jar
           asset_content_type: application/java-archive
         env:
