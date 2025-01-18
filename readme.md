@@ -99,5 +99,5 @@ Dieses Projekt ist unter der [MIT-Lizenz](LICENSE) lizenziert. Siehe die Lizenzd
 
 ## Drittanbieter-Code
 
-Einige Teile dieses Projekts basieren ggf. auf ([Playwright](https://github.com/microsoft/playwright)) und sind unter der Apache License 2.0 lizenziert. 
+Einige Teile dieses Projekts basieren ggf. auf ([Playwright](https://github.com/microsoft/playwright)) bzw. ([Playwright-Java](https://github.com/microsoft/playwright-java)) und sind unter der Apache License 2.0 lizenziert. 
 Die Apache License 2.0 ist unter `LICENSE-APACHE` zu finden.
