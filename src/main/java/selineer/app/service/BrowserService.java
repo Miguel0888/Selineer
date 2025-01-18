@@ -1,16 +1,16 @@
 package selineer.app.service;
 
-import selineer.adapter.PlaywrightAdapter;
 import selineer.api.Browser;
 import selineer.api.Page;
+import selineer.api.Playwright;
 
 public class BrowserService {
-    private final PlaywrightAdapter playwright;
+    private Playwright playwright;
     private Browser browser;
     private Page page;
 
     public BrowserService() {
-        this.playwright = new PlaywrightAdapter();
+        this.playwright = Playwright.create();
     }
 
     public void launchBrowser() {

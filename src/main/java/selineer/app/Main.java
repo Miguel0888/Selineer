@@ -1,6 +1,7 @@
 package selineer.app;
 
 import selineer.adapter.PlaywrightAdapter;
+import selineer.api.Playwright;
 import selineer.app.controller.MainController;
 import selineer.app.service.BrowserService;
 
@@ -13,9 +14,8 @@ public class Main {
     }
     
     private static void createAndShowGUI() {
-        PlaywrightAdapter adapter = new PlaywrightAdapter();
-        BrowserService browserService = new BrowserService();
-        MainController controller = new MainController(browserService);
+        // ToDo: May use dependency injection via Spring or other frameworks
+        MainController controller = new MainController();
 
         JFrame frame = new JFrame("Web Testing Dashboard");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

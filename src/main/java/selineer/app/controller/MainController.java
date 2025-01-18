@@ -7,6 +7,12 @@ import javax.swing.*;
 public class MainController {
     private final BrowserService browserService;
 
+    // ToDo: May use dependency injection via Spring or other frameworks
+    public MainController()
+    {
+        this(new BrowserService());
+    }
+
     public MainController(BrowserService browserService) {
         this.browserService = browserService;
     }

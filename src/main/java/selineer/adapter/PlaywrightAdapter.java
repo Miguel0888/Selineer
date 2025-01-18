@@ -43,8 +43,8 @@ public class PlaywrightAdapter implements Playwright {
     }
 
     public static Playwright create(CreateOptions options) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        // ToDo: May use options
+        return new PlaywrightAdapter();
     }
     
     

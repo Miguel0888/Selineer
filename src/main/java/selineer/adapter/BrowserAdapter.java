@@ -7,6 +7,7 @@ import selineer.api.BrowserType;
 import selineer.api.CDPSession;
 import selineer.api.Page;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -16,8 +17,13 @@ public class BrowserAdapter implements Browser {
     private final String browserName;
     private WebSocketClient webSocketClient;
 
+    // ToDo: Fix this!
+    private String chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+    private String profileDirectory = "C:\\ChromeProfile";
+
     public BrowserAdapter(String browserName) {
         this.browserName = browserName;
+        launchBrowser();
     }
 
     @Override
@@ -101,6 +107,26 @@ public class BrowserAdapter implements Browser {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /// HELPER / NOT API CONFORM METHODS
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void launchBrowser() {
+        try {
+            Process process = new ProcessBuilder(
+                chromePath, // Verwendet den fest codierten Pfad
+                "--remote-debugging-port=9222", // Aktiviert das Remote-Debugging
+                "--user-data-dir=" + profileDirectory, // Nutzt das angegebene Profilverzeichnis
+                "--disable-gpu" // Optional: Deaktiviert GPU-Beschleunigung
+            ).start();
+
+            System.out.println("Browser gestartet: " + browserName);
+
+            // Optional: Wartezeit, bis der Browser gestartet ist
+            Thread.sleep(2000);
+
+        } catch (Exception e) {
+            System.out.println("Fehler beim Starten des Browsers:");
+            e.printStackTrace();
+        }
+    }
 
     private void connectToBrowser() {
         try {
