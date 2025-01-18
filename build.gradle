@@ -23,6 +23,9 @@ dependencies {
     // implementation 'org.java-websocket:Java-WebSocket:1.6.0'
     implementation 'org.java-websocket:Java-WebSocket:1.5.2'
 
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+// ToDo: Replace Jackson with gson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
