@@ -18,12 +18,14 @@ public class BrowserService {
 
     // ToDo: Fix this!
     private String chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+    private String profileDirectory = "C:\\ChromeProfile";
 
     public void launchBrowser() {
         try {
             Process process = new ProcessBuilder(
                 chromePath, // Verwendet den fest codierten Pfad
                 "--remote-debugging-port=9222", // Aktiviert das Remote-Debugging
+                "--user-data-dir=" + profileDirectory, // Nutzt das angegebene Profilverzeichnis
                 "--disable-gpu" // Optional: Deaktiviert GPU-Beschleunigung
             ).start();
             System.out.println("Chrome gestartet.");
