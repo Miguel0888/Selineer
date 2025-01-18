@@ -425,7 +425,7 @@ public class PageAdapter implements Page {
 
         try {
             // Verwende NavigationHelper für die Navigation
-            NavigationHelper.navigateToUrl(ConnectionHelper.getSessionFactory(), url);
+            NavigationHelper.navigateTo(url);
 
             // Erstelle Response-Daten
             byte[] body = "{}".getBytes(); // Platzhalter für den Body
