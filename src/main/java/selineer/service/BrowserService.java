@@ -41,7 +41,7 @@ public class BrowserService {
                 webSocketClient = new WebSocketClient(new URI(wsUrl)) {
                     @Override
                     public void onOpen(ServerHandshake handshake) {
-                        System.out.println("Verbindung zum Browser hergestellt.");
+                        System.out.println("WebSocket-Verbindung hergestellt!");
                     }
     
                     @Override
@@ -51,31 +51,41 @@ public class BrowserService {
     
                     @Override
                     public void onClose(int code, String reason, boolean remote) {
-                        System.out.println("Verbindung geschlossen: " + reason);
+                        System.out.println("WebSocket-Verbindung geschlossen: " + reason);
                     }
     
                     @Override
                     public void onError(Exception ex) {
+                        System.out.println("Fehler in der WebSocket-Verbindung:");
                         ex.printStackTrace();
                     }
                 };
                 webSocketClient.connect();
+    
+                // Warte, bis die Verbindung tatsächlich aufgebaut wurde
+                while (!webSocketClient.isOpen()) {
+                    Thread.sleep(100); // 100ms warten, bis Verbindung offen ist
+                }
+                System.out.println("WebSocket-Client ist jetzt aktiv.");
             } else {
                 System.out.println("WebSocket-URL konnte nicht abgerufen werden.");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
+    }
+    
 
     public void navigateTo(String url) {
         if (webSocketClient != null && webSocketClient.isOpen()) {
             String command = "{\"id\":1,\"method\":\"Page.navigate\",\"params\":{\"url\":\"" + url + "\"}}";
             webSocketClient.send(command);
+            System.out.println("Navigiere zu URL: " + url);
         } else {
-            System.out.println("WebSocket-Verbindung nicht aktiv.");
+            System.out.println("WebSocket-Verbindung nicht aktiv. Kann nicht zu URL navigieren: " + url);
         }
     }
+    
 
     public void closeBrowser() {
         if (webSocketClient != null) {
@@ -103,12 +113,20 @@ public class BrowserService {
     
             if (jsonArray.isArray() && jsonArray.size() > 0) {
                 JsonNode firstPage = jsonArray.get(0);
-                return firstPage.get("webSocketDebuggerUrl").asText();
+                String webSocketDebuggerUrl = firstPage.get("webSocketDebuggerUrl").asText();
+                System.out.println("WebSocket-URL: " + webSocketDebuggerUrl);
+                return webSocketDebuggerUrl;
+            } else {
+                System.out.println("Keine WebSocket-URLs verfügbar.");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+    
+    public WebSocketClient getWebSocketClient() {
+        return webSocketClient;
+    }    
 
 }

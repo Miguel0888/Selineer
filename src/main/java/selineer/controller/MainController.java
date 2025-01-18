@@ -31,6 +31,17 @@ public class MainController {
                 JOptionPane.showMessageDialog(null, "Bitte eine URL eingeben und den Browser auswählen.");
             }
         });
+        browserSelector.addActionListener(e -> {
+            String selectedBrowser = (String) browserSelector.getSelectedItem();
+        if ("Chrome".equals(selectedBrowser)) { // Prüfen, ob der ausgewählte Browser korrekt ist
+            if (browserService.getWebSocketClient() == null || !browserService.getWebSocketClient().isOpen()) {
+                System.out.println("Verbinde mit dem Browser...");
+                browserService.connectToBrowser();
+            } else {
+                System.out.println("Bereits verbunden mit dem Browser.");
+            }
+        }
+        });
     }
     
 }
