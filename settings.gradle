@@ -1,4 +1,6 @@
 rootProject.name = 'Selineer'
 
+include 'adapter', 'cdp4j'
+
 
 

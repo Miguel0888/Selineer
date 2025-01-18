@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group = 'io.webfolder'
+version = '1.0.2'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.neovisionaries:nv-websocket-client:2.2'
+    implementation 'com.google.code.gson:gson:2.8.0'
+
+    // SLF4J API
+    implementation 'org.slf4j:slf4j-api:1.7.36' // oder eine passende Version
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'ch.qos.logback:logback-classic:1.2.3'
+    testImplementation 'uk.com.robust-it:cloning:1.9.3'
+}

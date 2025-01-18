@@ -1,0 +1,66 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.5.14' // Letzte Java-8-kompatible Version
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' // Um alles in JARs zu verpacken
+}
+
+group = 'selineer' // Package-Name
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    // Spring Boot Starter (Java 8 kompatibel)
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    // implementation 'org.java-websocket:Java-WebSocket:1.6.0'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.2'
+
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    implementation project(':cdp4j') // Abhängigkeit auf das cdp4j-Projekt
+
+    // chrome_devtools_protocol
+    // implementation 'org.netbeans.modules:org-netbeans-lib-chrome_devtools_protocol:RELEASE240'
+
+    // // Chrome DevTools-Protokolls um WebDriver (verwendet Selenium) zu umgehen
+    // implementation 'io.webfolder:cdp4j:4.8.4' 
+    // // Selenium WebDriver (Java 8 kompatibel)
+    // implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+
+    // Optional: Lombok für weniger Boilerplate
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // // Optional: Apache Commons Lang (nützliche Hilfsklassen)
+    // implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    // // Optional: Google Guava (nützliche Sammlungen und Werkzeuge)
+    // implementation 'com.google.guava:guava:30.1.1-jre'
+
+    // Optional: JUnit für Tests
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.named('jar') {
+    manifest {
+        attributes(
+            // Vermeide Aufrufkonventionen wie "java -cp o.jar selineer.Main"
+            // Stattdessen: "java -jar o.jar"
+            'Main-Class': 'selineer.app.Main' // Manifest-Eintrag
+        )
+    }
+}
+
+// Für Start mit Spring Boot:
+// tasks.named('bootJar') {
+//     manifest {
+//         attributes(
+//             'Main-Class': 'org.springframework.boot.loader.PropertiesLauncher'
+//         )
+//     }
+// }
