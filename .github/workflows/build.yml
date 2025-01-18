@@ -77,16 +77,17 @@ jobs:
       - name: Debug upload URL
         run: echo "${{ steps.create_release.outputs.upload_url }}"
 
-      - name: Check JAR file existence
+      - name: Find JAR file
+        id: find_jar
         run: |
           JAR_FILE=$(ls adapter/build/libs/adapter-*-all.jar)
-          ls -l "$JAR_FILE"
+          echo "JAR_FILE=$JAR_FILE" >> $GITHUB_ENV
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.JAR_FILE }}
           asset_name: Selineer-${{ env.new_version }}.jar
           asset_content_type: application/java-archive
         env:
