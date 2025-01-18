@@ -16,12 +16,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BrowserService {
     private WebSocketClient webSocketClient;
 
+    // ToDo: Fix this!
+    private String chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+
     public void launchBrowser() {
         try {
             Process process = new ProcessBuilder(
-                    "chrome",
-                    "--remote-debugging-port=9222",
-                    "--disable-gpu"
+                chromePath, // Verwendet den fest codierten Pfad
+                "--remote-debugging-port=9222", // Aktiviert das Remote-Debugging
+                "--disable-gpu" // Optional: Deaktiviert GPU-Beschleunigung
             ).start();
             System.out.println("Chrome gestartet.");
         } catch (IOException e) {
