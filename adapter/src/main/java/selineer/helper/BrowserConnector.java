@@ -1,12 +1,12 @@
-package selineer.service;
+package selineer.helper;
 
 import io.webfolder.cdp.Launcher;
 import io.webfolder.cdp.session.SessionFactory;
 
 public class BrowserConnector {
-    private SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory; // ToDo: May be improved vor multiple sessions!
 
-    public void connectToBrowser(String host, int port) {
+    public static void connectToBrowser(String host, int port) {
         try {
             // SessionFactory mit Host und Port initialisieren
             sessionFactory = new SessionFactory(host, port);
@@ -23,11 +23,11 @@ public class BrowserConnector {
         }
     }
 
-    public SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
     
-    private String getWebSocketDebuggerUrl() {
+    private static String getWebSocketDebuggerUrl() {
         try {
             java.net.URL url = new java.net.URL("http://localhost:9222/json");
             java.net.HttpURLConnection connection = (java.net.HttpURLConnection) url.openConnection();
@@ -52,7 +52,7 @@ public class BrowserConnector {
         return null;
     }
 
-    public void navigateToUrl(String url) {
+    public static void navigateToUrl(String url) {
         // Session explizit deklarieren
         io.webfolder.cdp.session.Session session = null;
         try {
