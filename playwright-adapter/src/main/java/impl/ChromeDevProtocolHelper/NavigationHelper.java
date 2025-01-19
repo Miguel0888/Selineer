@@ -1,4 +1,4 @@
-package selineer.adapter.ChromeDevProtocolHelper;
+package com.microsoft.playwright.impl.ChromeDevProtocolHelper;
 
 import io.webfolder.cdp.session.Session;
 import io.webfolder.cdp.session.SessionFactory;

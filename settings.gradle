@@ -13,7 +13,7 @@ pluginManagement {
 rootProject.name = 'Selineer'
 
 include 'dependency-platform'
-include 'playwright', 'cdp4j', 'adapter', 'app'
+include 'playwright', 'cdp4j', 'playwright-adapter', 'adapter', 'app'
 
 
 
