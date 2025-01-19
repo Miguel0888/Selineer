@@ -1,6 +1,6 @@
-package selineer.app.controller;
+package selineer.controller;
 
-import selineer.app.service.BrowserService;
+import selineer.service.BrowserService;
 
 import javax.swing.*;
 

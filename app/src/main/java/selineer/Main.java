@@ -1,9 +1,9 @@
-package selineer.app;
+package selineer;
 
-import selineer.adapter.PlaywrightAdapter;
-import selineer.api.Playwright;
-import selineer.app.controller.MainController;
-import selineer.app.service.BrowserService;
+import com.microsoft.playwright.impl.PlaywrightImpl;
+import com.microsoft.playwright.Playwright;
+import selineer.controller.MainController;
+import selineer.service.BrowserService;
 
 import javax.swing.*;
 import java.awt.*;

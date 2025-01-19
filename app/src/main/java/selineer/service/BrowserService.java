@@ -1,8 +1,8 @@
-package selineer.app.service;
+package selineer.service;
 
-import selineer.api.Browser;
-import selineer.api.Page;
-import selineer.api.Playwright;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 
 public class BrowserService {
     private Playwright playwright;
