@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'com.microsoft.playwright'
+version = '1.49.0-main+015939b150ae' // GH Repo: playwright-java
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    // Importiere die Plattform für zentrale Dependency Constraints
+    implementation platform(project(':dependency-platform'))
+
+    // Lokale Projektabhängigkeiten
+    implementation project(':playwright') 
+    implementation project(':cdp4j')
+
+    // Abhängigkeiten ohne Versionsnummern (Versionen kommen aus der Plattform)
+    implementation 'org.java-websocket:Java-WebSocket'
+    implementation 'com.google.code.gson:gson'
+
+    // Lombok für Boilerplate-Reduktion zentral konfigurieren (needs Version)
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+
+    // Optional: JUnit für Tests
+    testImplementation 'junit:junit'
+}

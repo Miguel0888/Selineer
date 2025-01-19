@@ -1,0 +1,26 @@
+plugins {
+    id 'java-platform'
+}
+
+javaPlatform {
+    allowDependencies() // Erlaubt die Nutzung von externen BOMs (optional)
+}
+
+dependencies {
+    // Spring Boot BOM (optional)
+    api platform('org.springframework.boot:spring-boot-dependencies:2.5.14')
+
+    constraints {
+        api 'org.springframework.boot:spring-boot-starter:2.5.14'
+        api 'org.java-websocket:Java-WebSocket:1.5.2'
+        api 'com.google.code.gson:gson:2.8.9'
+        api 'junit:junit:4.13.2'
+        api 'org.projectlombok:lombok:1.18.28'
+
+        // Weitere optionale Abhängigkeiten
+        // api 'org.apache.commons:commons-lang3:3.12.0'
+        // api 'com.google.guava:guava:30.1.1-jre'
+        // api 'io.webfolder:cdp4j:4.8.4'
+        // api 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    }
+}
