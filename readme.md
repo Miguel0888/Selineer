@@ -1,60 +1,84 @@
 # Selineer
 
-Selineer ist eine **Java 8-kompatible Testautomatisierungsbibliothek**, die eine Playwright-ähnliche API bereitstellt, aber auf einem speziellen Adapter aufbaut. Dieses Projekt wurde speziell entwickelt, um in Umgebungen zu funktionieren, in denen nur **Java 8** verfügbar ist, da Playwright Java 8 nicht unterstützt.
+Selineer ist eine **Java 8-kompatible Testautomatisierungsbibliothek**, die eine Playwright-ähnliche API bereitstellt, jedoch ohne den Node.js-Server. Stattdessen verwendet Selineer einen speziell entwickelten Adapter auf Basis von **CDP4J**, um direkt mit modernen Browsern zu interagieren. Dieses Projekt wurde speziell entwickelt, um Playwrights Funktionalität auch in Umgebungen mit Java 8 verfügbar zu machen.
+
+---
 
 ## Programmstart
-Für ausführbare JARs siehe Releases. Sie werden von GitHub Actions stehts auf dem neuesten Stand gehalten.
 
-Mit Manifest-Datei (automatisch erzeugft über build.gradle):
-`java -jar <RELEASE-NAME>.jar`
+Für ausführbare JARs siehe die Releases. Diese werden durch **GitHub Actions** stets auf dem neuesten Stand gehalten.
 
-Ohne Manifest:
-`java -cp <RELEASE-NAME>.jar selineer.Main`
+### **Mit Manifest-Datei (automatisch erzeugt über `build.gradle`)**
+```bash
+java -jar <RELEASE-NAME>.jar
+```
+
+### **Ohne Manifest**
+```bash
+java -cp <RELEASE-NAME>.jar selineer.Main
+```
+
+---
 
 ## Ziel des Projekts
 
-Das Hauptziel von Selineer ist es, eine **zu Playwright kompatible API** zu schaffen, die jedoch auf einem Adapter basiert. Dadurch wird es möglich, moderne Browser-Testautomatisierung im Playwright-Stil auch mit Java 8 durchzuführen. Darüber hinaus wird die Bibliothek später in der Lage sein, **Cucumber-Testdateien** einzulesen und deren Anweisungen im Browser auszuführen.
+Das Hauptziel von Selineer ist es, eine **Playwright-kompatible API** zu schaffen, die moderne Browser-Testautomatisierung im Playwright-Stil ermöglicht – jedoch vollständig mit **Java 8**. Die Bibliothek bietet eine native Java-Lösung, die sich von Playwrights Node.js-Server loslöst und stattdessen auf **CDP4J** basiert.
+
+---
 
 ## Funktionsübersicht
 
-1. **Playwright-ähnliche API:**
-   - Vollständig mit **Java 8** kompatibel.
-   - Auf **Selenium** basierend, aber mit einer API, die den Stil und die Funktionsweise von Playwright nachahmt.
+### **1. Playwright-ähnliche API**
+- Vollständig **Java 8-kompatibel**.
+- Basierend auf einem speziellen Adapter, der direkt mit **CDP4J** kommuniziert.
+- Kein Einsatz des Node.js-Servers erforderlich.
 
-2. **Cucumber-Testunterstützung:**
-   - Integration mit **Cucumber**, um Anweisungen wie `@Given`, `@When` und `@Then` zu interpretieren und auszuführen.
-   - **Erster Fokus:** Tests in einem **Chrome-Browser** auszuführen.
+### **2. Cucumber-Testunterstützung**
+- Geplante Integration mit **Cucumber**, um Gherkin-Syntax wie `@Given`, `@When` und `@Then` zu interpretieren und auszuführen.
+- Erster Fokus auf Tests im **Chrome-Browser**.
 
-3. **Einfache Funktionen im ersten Schritt:**
-   - Unterstützung von `@Given` und `@When`.
-   - `@Then` ist vorerst nur darauf beschränkt, Screenshots zu machen (z. B. `"Take a Screenshot"`).
+### **3. Aktuelle Funktionen**
+- **Navigation zu Webseiten**: Der Adapter unterstützt bereits das Öffnen von Webseiten und die Navigation.
+- **Pläne für die nächsten Schritte**:
+  - Unterstützung für DOM-Interaktionen wie Klicks und Eingaben mit Selektoren.
+  - Erweiterung auf komplexere Aktionen, die in Playwright üblich sind.
+
+---
 
 ## Meilensteine
 
-### **Meilenstein 0: Grundlegende Playwright-kompatible API**
-- Entwicklung einer API, die Playwright nachahmt, jedoch mit Selenium funktioniert.
-- Sicherstellung der vollständigen **Java 8-Kompatibilität**.
+### **Meilenstein 0: Grundlegende API (aktuell erreicht)**
+- Entwicklung einer API, die Playwright nachahmt, jedoch ohne Node.js funktioniert.
+- Unterstützung von **CDP4J** zur direkten Kommunikation mit dem Browser.
+- Aktuelle Funktionalität:
+  - Verbindung zum Browser herstellen.
+  - Navigation zu Webseiten.
 
-### **Meilenstein 1: Unterstützung von `@Given`, `@When`, `@Then`**
-- **`@Given`** und **`@When`**: Implementieren der grundlegenden Anweisungen und Aktionen im Browser.
-- **`@Then`**: Vorläufige Unterstützung zum Aufnehmen von Screenshots.
+### **Meilenstein 1: Selektor- und Button-Interaktionen**
+- Unterstützung für gängige DOM-Aktionen wie Button-Klicks und Texteingaben.
+- Erweiterung der API um grundlegende Selektorfunktionen (z. B. `click(selector)`).
 
-### **Meilenstein 2: Erweiterte Cucumber-Unterstützung**
-- Komplette Unterstützung für Cucumber-Szenarien.
-- Erweiterung von **`@Then`**, um komplexere Assertions und Validierungen zu ermöglichen.
+### **Meilenstein 2: Erweiterte DOM-Interaktionen**
+- Unterstützung für komplexe DOM-Manipulationen und Validierungen.
+- Erweiterung der Test-API um die Möglichkeit, Attribute und Strukturen auszulesen.
+
+### **Meilenstein 3: Integration mit Cucumber**
+- Interpretation von Gherkin-Syntax (`@Given`, `@When`, `@Then`).
+- Vollständige Unterstützung von Cucumber-Szenarien.
 
 ---
 
 ## Voraussetzungen
 
-- **Java 8** (erforderlich für maximale Kompatibilität).
-- Gradle für das Projekt-Build-System.
-- Selenium-Bibliothek (als Basis für die API).
+- **Java 8**: Erforderlich für maximale Kompatibilität.
+- **Gradle**: Für das Projekt-Build-System.
+- **CDP4J**: Für die direkte Kommunikation mit Chrome über das Chrome DevTools Protocol.
 
 ---
 
 ## Automatische Releases
-Siehe Step-Definitionen von GH Actions in .github/workflows/build.gradle.
+
+Selineer verwendet **GitHub Actions**, um kontinuierlich neue Versionen zu bauen und bereitzustellen. Die Konfiguration findest du in `.github/workflows/build.yml`.
 
 ---
 
@@ -75,9 +99,9 @@ Siehe Step-Definitionen von GH Actions in .github/workflows/build.gradle.
 
 ---
 
-## Beispiel (zukünftige Funktion)
+## Beispiel: Geplante Nutzung
 
-Ein Beispiel für eine Cucumber-Testdatei, die mit Selineer funktioniert:
+Ein zukünftiges Beispiel für eine Cucumber-Testdatei, die mit Selineer funktioniert:
 
 ```gherkin
 Feature: Google Suche
@@ -89,7 +113,7 @@ Feature: Google Suche
     Then Take a Screenshot
 ```
 
-Die obigen Schritte werden von Selineer interpretiert und im Chrome-Browser ausgeführt, auch unter Java 8.
+Die obigen Schritte werden von Selineer interpretiert und im Chrome-Browser ausgeführt – vollständig mit Java 8.
 
 ---
 
@@ -97,7 +121,20 @@ Die obigen Schritte werden von Selineer interpretiert und im Chrome-Browser ausg
 
 Dieses Projekt ist unter der [MIT-Lizenz](LICENSE) lizenziert. Siehe die Lizenzdatei für weitere Details.
 
-## Drittanbieter-Code
+---
 
-Einige Teile dieses Projekts basieren ggf. auf ([Playwright](https://github.com/microsoft/playwright)) bzw. ([Playwright-Java](https://github.com/microsoft/playwright-java)) und sind unter der Apache License 2.0 lizenziert. 
-Die Apache License 2.0 ist unter `LICENSE-APACHE` zu finden.
+## Drittanbieter-Bibliotheken
+
+- **[CDP4J](https://github.com/webfolderio/cdp4j):** Zur Kommunikation mit dem Chrome DevTools Protocol.
+- **[Playwright](https://github.com/microsoft/playwright):** Inspiration für die API.
+- **[Playwright-Java](https://github.com/microsoft/playwright-java):** Teile der Interfaces basieren auf diesem Projekt.
+- **Apache License 2.0:** Lizenz für Drittanbieter-Code.
+
+---
+
+### **Wichtige Änderungen**
+- **Selenium wurde durch CDP4J ersetzt**, da Selenium in Java 8 nur den WebDriver unterstützt und keine direkte CDP-Unterstützung bietet. Beachte hierzu den notwendigen Compilerschalter `-parameters` in der `build.gradle` des Subprojects cdp4j.
+- Der Adapter arbeitet vollständig ohne Node.js und verwendet stattdessen eine native Java-Lösung.
+
+Falls Fragen bestehen oder Feedback benötigt wird, zögere nicht, ein Issue zu erstellen. 😊
+
