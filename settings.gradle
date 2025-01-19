@@ -1,6 +1,19 @@
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version '2.5.14'
+        id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+        id 'com.github.johnrengelman.shadow' version '8.1.1'
+    }
+
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'Selineer'
 
-include 'adapter', 'cdp4j'
+include 'dependency-platform'
+include 'playwright', 'cdp4j', 'adapter', 'app'
 
 
 

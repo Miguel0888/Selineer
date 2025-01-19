@@ -5,8 +5,8 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
-group = 'selineer' // Package-Name
-version = '1.0.0'
+// group = 'selineer' // Package-Name
+// version = '1.0.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -20,6 +20,7 @@ dependencies {
     // Lokale Projektabhängigkeiten
     implementation project(':playwright') 
     implementation project(':cdp4j')
+    implementation project(':adapter')
 
     // Abhängigkeiten ohne Versionsnummern (Versionen kommen aus der Plattform)
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -34,15 +35,15 @@ dependencies {
     testImplementation 'junit:junit'
 }
 
-tasks.named('jar') {
-    manifest {
-        attributes(
-            // Vermeide Aufrufkonventionen wie "java -cp o.jar selineer.Main"
-            // Stattdessen: "java -jar o.jar"
-            'Main-Class': 'selineer.app.Main' // Manifest-Eintrag
-        )
-    }
-}
+// tasks.named('jar') {
+//     manifest {
+//         attributes(
+//             // Vermeide Aufrufkonventionen wie "java -cp o.jar selineer.Main"
+//             // Stattdessen: "java -jar o.jar"
+//             'Main-Class': 'selineer.app.Main' // Manifest-Eintrag
+//         )
+//     }
+// }
 
 // Für Start mit Spring Boot:
 // tasks.named('bootJar') {
