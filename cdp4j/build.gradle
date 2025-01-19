@@ -25,3 +25,11 @@ dependencies {
     testImplementation 'ch.qos.logback:logback-classic:1.2.3'
     testImplementation 'uk.com.robust-it:cloning:1.9.3'
 }
+
+////////////////////////////////////////////////////////////////////////
+// !!! IMPORTANT: Add -parameters to the compiler arguments !!!
+// Otherwise u get runtime Errors like url not found (instead generic arg0).
+////////////////////////////////////////////////////////////////////////
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+}
