@@ -19,7 +19,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
 
     // SLF4J API
-    implementation 'org.slf4j:slf4j-api:1.7.36' // oder eine passende Version
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:slf4j-nop:1.7.36' // No-Op-Logger (suppresses Logging)
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'ch.qos.logback:logback-classic:1.2.3'

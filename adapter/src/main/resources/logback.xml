@@ -1,0 +1,10 @@
+<configuration>
+    <!-- Root Logger: nur WARN und ERROR ausgeben -->
+    <root level="warn">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <!-- CDP4J-spezifisches Logging auf WARN reduzieren -->
+    <!-- Der Gradle import slf4j-nop muss dann aber aus den subprojekt für cdp4j entfernt sein -->
+    <logger name="cdp4j" level="warn" />
+</configuration>
