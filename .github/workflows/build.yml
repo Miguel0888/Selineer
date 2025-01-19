@@ -23,11 +23,11 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build project with shadowJar
-        run: ./gradlew :adapter:shadowJar
+        run: ./gradlew :app:shadowJar
 
       # Debug: List build artifacts
       - name: List build artifacts
-        run: ls -l adapter/build/libs
+        run: ls -l app/build/libs
 
       - name: Determine version
         id: version
@@ -80,7 +80,7 @@ jobs:
       - name: Find JAR file
         id: find_jar
         run: |
-          JAR_FILE=$(ls adapter/build/libs/adapter-*-all.jar)
+          JAR_FILE=$(ls app/build/libs/app-*-all.jar)
           echo "JAR_FILE=$JAR_FILE" >> $GITHUB_ENV
 
       - name: Upload Release Asset
